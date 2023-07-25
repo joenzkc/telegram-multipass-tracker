@@ -11,4 +11,13 @@ export default class LogDb {
     const repo = AppDataSource.getRepository(Log);
     return await repo.find();
   }
+
+  public static async getUsersLogs(telegram_id: string) {
+    const repo = AppDataSource.getRepository(Log);
+    return await repo.find({
+      where: {
+        telegram_id: telegram_id,
+      },
+    });
+  }
 }

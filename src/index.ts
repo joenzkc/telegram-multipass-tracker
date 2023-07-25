@@ -7,6 +7,9 @@ import LogDb from "./db/log.db";
 import { AppDataSource } from "./datasource";
 import UserDb from "./db/user.db";
 import { useMyPassesScene } from "./scenes/useMyPasses.scene";
+import { useSomeoneElsesPassesScene } from "./scenes/useSomeoneElsesPasses.scene";
+import { viewLogsScene } from "./scenes/viewLogs.scene";
+import { addPassesScene } from "./scenes/addPasses.scene";
 
 const app: Koa<DefaultState, DefaultContext> = new Koa();
 const router = new Router();
@@ -18,6 +21,7 @@ config();
 export const defaultKeyboard = Markup.keyboard([
   ["Use my passes 💪", "Use someone elses passes 🤔"],
   ["Logs📝", "Stats📊"],
+  ["Add passes🎟️"],
 ]).resize();
 const setup = async () => {
   router.get("/", (ctx) => {
@@ -29,7 +33,12 @@ const setup = async () => {
   app.use(router.routes()).use(router.allowedMethods());
   bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
   bot.use(session());
-  const stage = new Scenes.Stage([useMyPassesScene]);
+  const stage = new Scenes.Stage([
+    useMyPassesScene,
+    useSomeoneElsesPassesScene,
+    viewLogsScene,
+    addPassesScene,
+  ]);
   bot.use(stage.middleware());
 
   bot.start(async (ctx) => {
@@ -48,13 +57,22 @@ const setup = async () => {
     ctx.scene.enter("useMyPassesScene");
   });
 
-  bot.hears("Logs📝", async (ctx) => {
-    const logs = await LogDb.getAllLogs();
-    let reply = "";
-    logs.forEach((log, index) => {
-      reply += `${index + 1}: ${log.data}\n`;
-    });
+  bot.hears("Use someone elses passes 🤔", (ctx) => {
+    ctx.scene.enter("useSomeoneElsesPassesScene");
+  });
+
+  bot.hears("Stats📊", async (ctx) => {
+    let reply = "Here are the remaining passes:\n\n";
+    reply += await userDb.getStats();
     ctx.reply(reply, defaultKeyboard);
+  });
+
+  bot.hears("Logs📝", async (ctx) => {
+    ctx.scene.enter("viewLogsScene");
+  });
+
+  bot.hears("Add passes🎟️", async (ctx) => {
+    ctx.scene.enter("addPassesScene");
   });
   bot.launch();
 };
