@@ -77,8 +77,8 @@ const setup = async () => {
 
   bot.launch();
 
-  app.listen(3000, () => {
-    console.log("Server running on port 3000");
+  app.listen(10000, () => {
+    console.log("Server running on port 10000");
   });
 };
 
