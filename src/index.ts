@@ -74,7 +74,12 @@ const setup = async () => {
   bot.hears("Add passes🎟️", async (ctx) => {
     ctx.scene.enter("addPassesScene");
   });
+
   bot.launch();
+
+  app.listen(3000, () => {
+    console.log("Server running on port 3000");
+  });
 };
 
 setup();
