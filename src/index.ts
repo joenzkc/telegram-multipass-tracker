@@ -25,7 +25,7 @@ export const defaultKeyboard = Markup.keyboard([
 ]).resize();
 const setup = async () => {
   router.get("/", (ctx) => {
-    ctx.body = process.env.TELEGRAM_BOT_TOKEN;
+    ctx.body = "Awake!";
   });
   await AppDataSource.initialize();
   console.log("Database initialized");
@@ -77,8 +77,8 @@ const setup = async () => {
 
   bot.launch();
 
-  app.listen(10000, () => {
-    console.log("Server running on port 10000");
+  app.listen(process.env.PORT || 10000, () => {
+    console.log(`Server started on port ${process.env.PORT || "10000"}`);
   });
 };
 
