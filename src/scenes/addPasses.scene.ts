@@ -1,6 +1,6 @@
 import { Markup, Scenes } from "telegraf";
 import { defaultKeyboard } from "..";
-import UserDb from "../db/user.db";
+import { addPasses } from "../firebase/userDb";
 
 const step1 = async (ctx) => {
   ctx.reply(
@@ -15,7 +15,7 @@ const step1 = async (ctx) => {
 
 const step2 = async (ctx) => {
   const numPasses = parseInt(ctx.message.text);
-  await UserDb.addPasses(ctx.from.username, numPasses);
+  await addPasses(ctx.from.username, numPasses);
   ctx.reply(`You have added ${numPasses} passes!`, defaultKeyboard);
   ctx.scene.leave();
 };

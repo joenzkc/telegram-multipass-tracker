@@ -1,6 +1,7 @@
 import { Markup, Scenes } from "telegraf";
 import userDb from "../db/user.db";
 import { defaultKeyboard } from "..";
+import { usePasses } from "../firebase/userDb";
 
 const step1 = (ctx) => {
   ctx.reply(
@@ -33,10 +34,15 @@ const step3 = (ctx) => {
 
 const step4 = async (ctx) => {
   try {
-    const remaining = await userDb.usePasses(
+    // const remaining = await userDb.usePasses(
+    //   ctx.from.username,
+    //   ctx.wizard.state["numPassesUsed"]
+    // );
+    const remaining = await usePasses(
       ctx.from.username,
       ctx.wizard.state["numPassesUsed"]
     );
+
     ctx.replyWithMarkdown(
       `You have ${remaining} passes remaining!`,
       defaultKeyboard

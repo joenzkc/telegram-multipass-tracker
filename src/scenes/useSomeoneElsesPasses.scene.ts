@@ -1,9 +1,11 @@
 import { Markup, Scenes } from "telegraf";
 import UserDb from "../db/user.db";
 import { defaultKeyboard } from "..";
+import { getUserByName, getUsers, usePasses } from "../firebase/userDb";
 
 const step1 = async (ctx) => {
-  let users = await UserDb.getUsers();
+  // let users = await UserDb.getUsers();
+  let users = await getUsers();
   const usersStrings: string[] = users
     .filter((user) => user.telegram_id !== ctx.from.username)
     .map((user) => user.name);
@@ -15,7 +17,8 @@ const step1 = async (ctx) => {
 };
 
 const step2 = async (ctx) => {
-  const user = await UserDb.getUserByName(ctx.message.text);
+  // const user = await UserDb.getUserByName(ctx.message.text);
+  const user = getUserByName(ctx.message.text);
   ctx.wizard.state["borrowing_from"] = user;
   ctx.reply(
     "How many passes are we borrowing?",
@@ -30,12 +33,13 @@ const step2 = async (ctx) => {
 const step3 = async (ctx) => {
   const numPassesBorrowed = parseInt(ctx.message.text);
   const user = ctx.wizard.state["borrowing_from"];
-  await UserDb.usePasses(
-    user.telegram_id,
-    numPassesBorrowed,
-    true,
-    ctx.from.username
-  );
+  // await UserDb.usePasses(
+  //   user.telegram_id,
+  //   numPassesBorrowed,
+  //   true,
+  //   ctx.from.username
+  // );
+  await usePasses(user.telegram_id, numPassesBorrowed, true, ctx.from.username);
   ctx.reply(
     `You have borrowed ${numPassesBorrowed} passes from ${user.name}!`,
     defaultKeyboard
