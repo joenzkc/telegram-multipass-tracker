@@ -1,23 +1,23 @@
-import { AppDataSource } from "../datasource";
-import { Log } from "../entities/log.entity";
+// import { AppDataSource } from "../datasource";
+// import { Log } from "../entities/log.entity";
 
-export default class LogDb {
-  public static async log(telegram_id: string, data: string): Promise<void> {
-    const repo = AppDataSource.getRepository(Log);
-    await repo.insert({ telegram_id, data });
-  }
+// export default class LogDb {
+//   public static async log(telegram_id: string, data: string): Promise<void> {
+//     const repo = AppDataSource.getRepository(Log);
+//     await repo.insert({ telegram_id, data });
+//   }
 
-  public static async getAllLogs(): Promise<Log[]> {
-    const repo = AppDataSource.getRepository(Log);
-    return await repo.find();
-  }
+//   public static async getAllLogs(): Promise<Log[]> {
+//     const repo = AppDataSource.getRepository(Log);
+//     return await repo.find();
+//   }
 
-  public static async getUsersLogs(telegram_id: string) {
-    const repo = AppDataSource.getRepository(Log);
-    return await repo.find({
-      where: {
-        telegram_id: telegram_id,
-      },
-    });
-  }
-}
+//   public static async getUsersLogs(telegram_id: string) {
+//     const repo = AppDataSource.getRepository(Log);
+//     return await repo.find({
+//       where: {
+//         telegram_id: telegram_id,
+//       },
+//     });
+//   }
+// }

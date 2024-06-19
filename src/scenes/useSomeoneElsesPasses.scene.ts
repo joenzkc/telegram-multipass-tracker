@@ -1,5 +1,4 @@
 import { Markup, Scenes } from "telegraf";
-import UserDb from "../db/user.db";
 import { defaultKeyboard } from "..";
 import { getUserByName, getUsers, usePasses } from "../firebase/userDb";
 

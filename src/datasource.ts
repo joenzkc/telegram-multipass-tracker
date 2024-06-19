@@ -1,9 +1,9 @@
-import { config } from "dotenv";
-import { DataSource } from "typeorm";
-import { Log } from "./entities/log.entity";
-import { User } from "./entities/user.entity";
+// import { config } from "dotenv";
+// import { DataSource } from "typeorm";
+// import { Log } from "./entities/log.entity";
+// import { User } from "./entities/user.entity";
 
-config();
+// config();
 
 // export const AppDataSource = new DataSource({
 //   type: "postgres",

@@ -5,14 +5,14 @@ import { config } from "dotenv";
 import { Markup, Scenes, Telegraf, session } from "telegraf";
 // import LogDb from "./db/log.db";
 // import { AppDataSource } from "./datasource";
-import UserDb from "./db/user.db";
+// import UserDb from "./db/user.db";
 import { useMyPassesScene } from "./scenes/useMyPasses.scene";
 import { useSomeoneElsesPassesScene } from "./scenes/useSomeoneElsesPasses.scene";
 import { viewLogsScene } from "./scenes/viewLogs.scene";
 import { addPassesScene } from "./scenes/addPasses.scene";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getStats } from "./firebase/userDb";
+import { getStats, getUser } from "./firebase/userDb";
 
 const app: Koa<DefaultState, DefaultContext> = new Koa();
 const router = new Router();
@@ -89,7 +89,7 @@ const setup = async () => {
   bot.use(stage.middleware());
 
   bot.start(async (ctx) => {
-    const user = await UserDb.getUser(ctx.from.username);
+    const user = await getUser(ctx.from.username);
     if (user) {
       //   console.log(user);
       let reply = `Welcome back ${user.name}! 🎉\n\nWhat would you like to do today? \n\n*Remaining passes*:\n`;
