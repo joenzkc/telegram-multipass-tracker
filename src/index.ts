@@ -4,7 +4,7 @@ import Router from "koa-router";
 import { config } from "dotenv";
 import { Markup, Scenes, Telegraf, session } from "telegraf";
 // import LogDb from "./db/log.db";
-import { AppDataSource } from "./datasource";
+// import { AppDataSource } from "./datasource";
 import UserDb from "./db/user.db";
 import { useMyPassesScene } from "./scenes/useMyPasses.scene";
 import { useSomeoneElsesPassesScene } from "./scenes/useSomeoneElsesPasses.scene";
@@ -74,8 +74,8 @@ const setup = async () => {
   router.get("/", (ctx) => {
     ctx.body = "Awake!";
   });
-  await AppDataSource.initialize();
-  console.log("Database initialized");
+  // await AppDataSource.initialize();
+  // console.log("Database initialized");
 
   app.use(router.routes()).use(router.allowedMethods());
   bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
